@@ -1,0 +1,20 @@
+function fibo(n : int) : int =
+    let
+        var a : int := 1
+        var b : int := 0
+        var tmp : int := 0
+    in
+        if n < 0 then
+            -1
+        else
+        (
+            for count := 1 to n do
+            (
+                tmp := a;
+                a := a + b;
+                b := tmp
+            );
+            a
+        )
+    end
+
