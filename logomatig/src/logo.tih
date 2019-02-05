@@ -1,0 +1,12 @@
+type cursor = { xpos : int, ypos : int , angle : int }
+function logo(x: int, y: int) : int =
+(
+    let
+        import "parser.tih"
+        import "token.tih"
+        var token_list : tokens := nil
+    in
+        token_list = parser(x,y);
+        1
+    end
+)
