@@ -1,0 +1,16 @@
+type int_array = array of int
+function max_search(arr : int_array, size : int) : int =
+    let
+        var maxpos : int := 0
+        var max : int := 0
+    in
+    (
+        max := arr[0];
+        for count := 1 to size do
+        (
+            if(arr[count] > max) then
+                maxpos := count
+        );
+        maxpos
+    )
+    end
