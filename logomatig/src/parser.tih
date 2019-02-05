@@ -1,0 +1,49 @@
+type tokens = { token : string, arg : int , next : tokens }
+function parser() : tokens =
+(
+    let
+        import "token.tih"
+        var ntoken : string := ""
+        var itoken : int := 0
+        var cmds : arr_of_str := arr_of_str[2] of ""
+        var token_list : tokens := nil
+        var cur_token : tokens := nil
+        var new_token : tokens := nil
+    in
+    (
+        cmds[0] := "forward";
+        cmds[1] := "left";
+        cmds[2] := "right";
+        cur_token := token_list;
+        ntoken := get_token();
+        while ntoken <> "" do
+        (
+            print(ntoken);
+            if(is_token(cmds, ntoken) = 0) then
+            (
+                print_err("Invalid token");
+                exit(-1)
+            );
+            itoken := get_token_int();
+            if itoken = -1 then
+            (
+                print_err("Invalid token - number\n");
+                exit(-1)
+            );
+            print_int(itoken);
+            print("\n");
+            if token_list = nil then
+            (
+                print("token list empty\n");
+                token_list := tokens {token = ntoken, arg = itoken, next = nil}
+            )
+            else
+                token_list := tokens {token = ntoken, arg = itoken, next = token_list};
+            ntoken := get_token()
+        );
+        print("\n\n");
+        print_tokens(token_list);
+        token_list
+    )
+    end
+)
