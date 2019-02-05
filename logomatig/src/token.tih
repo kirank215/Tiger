@@ -59,12 +59,16 @@ function print_tokens(token_list : tokens) =
     if token_list.next = nil then
     (
         print(token_list.token);
+        print(" ");
+        print_int(token_list.arg);
         print("\n")
     )
     else
     (
         print_tokens(token_list.next);
         print(token_list.token);
+        print(" ");
+        print_int(token_list.arg);
         print("\n")
     )
 )
