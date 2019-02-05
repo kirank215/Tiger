@@ -1,0 +1,5 @@
+let
+    var hello : string := "Hi Tigrou!\n"
+in
+    print(hello)
+end
