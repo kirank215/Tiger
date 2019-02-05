@@ -1,0 +1,5 @@
+let
+    var age : int := 20
+in
+(print_int(age); print("\n"))
+end
