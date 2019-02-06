@@ -8,20 +8,22 @@ function execute_ ( c : cursor, token_list : tokens ) =
         var y_ : int := 0
     in
     (
+    /*
         print(token_list.token);
         print("\n");
         print_int(c.xpos);
         print("\n");
         print_int(c.ypos);
         print("\n");
+    */
         if streq(token_list.token, "forward") = 1 then
         (
             print("\n");
             print("\n");
             x_ := c.xpos;
             y_ := c.ypos;
-            c.xpos := (c.xpos +  token_list.arg * cos (c.angle))/1000000;
-            c.ypos := (c.ypos +  token_list.arg * sin (c.angle))/1000000;
+            c.xpos := c.xpos +  (token_list.arg * cos (c.angle))/1000000;
+            c.ypos := c.ypos +  (token_list.arg * sin (c.angle))/1000000;
             bresenham_line(x_, y_, c.xpos, c.ypos)
         );
         if streq(token_list.token, "left") = 1 then
@@ -31,11 +33,13 @@ function execute_ ( c : cursor, token_list : tokens ) =
         if streq(token_list.token, "right") = 1 then
         (
             c.angle := c.angle + token_list.arg
-        );
+        )
+    /*
         print_int(c.xpos);
         print("\n");
         print_int(c.ypos);
         print("\n")
+    */
     )
     end
 )
@@ -44,13 +48,11 @@ function execute_ ( c : cursor, token_list : tokens ) =
 
 function execute ( token_list : tokens, pos : cursor ) =
 (
-    print("New Instr\n");
     if token_list.next = nil then
         execute_(pos, token_list)
     else
     (
         execute(token_list.next, pos);
-        print("back from call\n");
         execute_(pos, token_list)
     )
 )
