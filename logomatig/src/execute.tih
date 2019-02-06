@@ -20,8 +20,8 @@ function execute_ ( c : cursor, token_list : tokens ) =
             print("\n");
             x_ := c.xpos;
             y_ := c.ypos;
-            c.xpos := c.xpos +  (token_list.arg * cos (c.angle))/1000000;
-            c.ypos := c.ypos +  (token_list.arg * sin (c.angle))/1000000;
+            c.xpos := (c.xpos +  token_list.arg * cos (c.angle))/1000000;
+            c.ypos := (c.ypos +  token_list.arg * sin (c.angle))/1000000;
             bresenham_line(x_, y_, c.xpos, c.ypos)
         );
         if streq(token_list.token, "left") = 1 then

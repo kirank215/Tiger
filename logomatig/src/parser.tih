@@ -22,20 +22,18 @@ function parser(x : int, y : int) : tokens =
         (
             if(is_token(cmds, ntoken) = 0) then
             (
-                print_err("Invalid token");
+                print_err("Invalid token ");
+                print_err(ntoken);
                 exit(-1)
             );
             itoken := get_token_int();
             if itoken = -1 then
             (
-                print_err("Invalid token - number\n");
+                print_err("Invalid token - number ");
                 exit(-1)
             );
             if token_list = nil then
-            (
-                print("token list empty\n");
                 token_list := tokens {token = ntoken, arg = itoken, next = nil}
-            )
             else
                 token_list := tokens {token = ntoken, arg = itoken, next = token_list};
             ntoken := get_token()
