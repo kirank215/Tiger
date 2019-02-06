@@ -6,16 +6,18 @@ function parser(x : int, y : int) : tokens =
         import "execute.tih"
         var ntoken : string := ""
         var itoken : int := 0
-        var cmds : arr_of_str := arr_of_str[2] of ""
+        var cmds : arr_of_str := arr_of_str[3] of ""
         var token_list : tokens := nil
         var cur_token : tokens := nil
         var new_token : tokens := nil
         var pos := cursor { xpos = x, ypos = y, angle = 0}
+        var wait : int := 0
     in
     (
         cmds[0] := "forward";
         cmds[1] := "left";
         cmds[2] := "right";
+        cmds[3] := "repeat";
         cur_token := token_list;
         ntoken := get_token();
         while ntoken <> "" do
@@ -24,22 +26,42 @@ function parser(x : int, y : int) : tokens =
             (
                 print_err("Invalid token ");
                 print_err(ntoken);
-                exit(-1)
+                exit(1)
             );
             itoken := get_token_int();
             if itoken = -1 then
             (
                 print_err("Invalid token - number ");
-                exit(-1)
+                exit(1)
             );
             if token_list = nil then
                 token_list := tokens {token = ntoken, arg = itoken, next = nil}
             else
                 token_list := tokens {token = ntoken, arg = itoken, next = token_list};
-            ntoken := get_token()
+            if streq(ntoken, "repeat") = 1 then
+            (
+                ntoken := get_token();
+                if streq(ntoken, "[") <> 1 then
+                (
+                    print_err("Invalid token - expecting [ ");
+                    exit(1)
+                );
+                wait := wait + 1
+            );
+            ntoken := get_token();
+            if ord(ntoken) = 93 & wait > 0 then
+            (
+                token_list := tokens {token = "endrepeat", arg = itoken, next = token_list};
+                wait := wait - 1;
+                ntoken := get_token()
+            )
         );
-        print("\n\n");
-        print_tokens(token_list);
+
+        if wait <> 0 then
+        (
+            print_err("Invalid token - expecting [ ");
+            exit(1)
+        );
 
         execute(token_list, pos);
         token_list

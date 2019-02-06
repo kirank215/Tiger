@@ -8,18 +8,8 @@ function execute_ ( c : cursor, token_list : tokens ) =
         var y_ : int := 0
     in
     (
-    /*
-        print(token_list.token);
-        print("\n");
-        print_int(c.xpos);
-        print("\n");
-        print_int(c.ypos);
-        print("\n");
-    */
         if streq(token_list.token, "forward") = 1 then
         (
-            print("\n");
-            print("\n");
             x_ := c.xpos;
             y_ := c.ypos;
             c.xpos := c.xpos +  (token_list.arg * cos (c.angle))/1000000;
@@ -34,17 +24,27 @@ function execute_ ( c : cursor, token_list : tokens ) =
         (
             c.angle := c.angle + token_list.arg
         )
-    /*
-        print_int(c.xpos);
-        print("\n");
-        print_int(c.ypos);
-        print("\n")
-    */
     )
     end
 )
 
-
+function execute_repeat(token_list : tokens, pos: cursor) =
+(
+    if streq(token_list.next.token, "repeat") = 1 then
+        execute_ (pos, token_list)
+    else
+    (
+        if streq(token_list.token, "endrepeat") = 1 then
+        (
+            for count:= 0 to token_list.arg - 1 do
+            (
+                execute_repeat(token_list.next, pos)
+            )
+        );
+        execute(token_list.next, pos);
+        execute_(pos, token_list)
+    )
+)
 
 function execute ( token_list : tokens, pos : cursor ) =
 (
@@ -52,6 +52,13 @@ function execute ( token_list : tokens, pos : cursor ) =
         execute_(pos, token_list)
     else
     (
+        if streq(token_list.token, "endrepeat") = 1 then
+        (
+            for count:= 0 to token_list.arg - 1 do
+            (
+                execute(token_list.next, pos)
+            )
+        );
         execute(token_list.next, pos);
         execute_(pos, token_list)
     )

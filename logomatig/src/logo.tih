@@ -7,6 +7,6 @@ function logo(x: int, y: int) : int =
         var token_list : tokens := nil
     in
         token_list = parser(x,y);
-        1
+        0
     end
 )
